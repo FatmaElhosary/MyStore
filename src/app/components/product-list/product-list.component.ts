@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { ProductService } from './../../services/product.service';
 import { Product } from './../../models/Product';
 import { Component, OnInit } from '@angular/core';
+import { CartItem } from 'src/app/models/CartItem';
 
 @Component({
   selector: 'app-product-list',
@@ -25,7 +26,8 @@ export class ProductListComponent implements OnInit {
   }
   ///add product to cart
   addProduct(product: Product) {
-this._cartService.addToCart(product);
+   const cartItem={product,quantity:1}
+this._cartService.addToCart(cartItem);
     alert('added');
   }
 }

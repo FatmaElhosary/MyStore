@@ -1,1 +1,21 @@
-<p>product-item-detail works!</p>
+
+<div class="detail-container ">
+    
+    <img src="{{product.url}}" class="detail-item" alt="...">
+    <h3 >{{product.name}}</h3>
+    <h2 >{{product.price|currency}}</h2>
+    <h4>{{product.description}}</h4>
+    <select class="select-input ">
+      <option value="1" selected>1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <button  class="btn btn-primary"  >Add To Cart</button>
+    <a routerLink="/">back to broduct list</a>
+
+  </div>
+  
+  
+  

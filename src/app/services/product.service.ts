@@ -21,6 +21,12 @@ export class ProductService {
       this.products$.next(this.products);
     });
   }
+  //get single product 
+  getSingleProduct(id:number){
+    const product=this.products.find(product=>product.id===id);
+    return product;
+
+  }
 
   
 }
