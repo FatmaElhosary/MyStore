@@ -3,14 +3,16 @@
   <img src="{{product.url}}" class="product-image " routerLink="/products/{{product.id}}" alt="...">
   <h3>{{product.name}}</h3>
   <h2>{{product.price|currency}}</h2>
-  <select class="select-input">
-    <option value="1" selected>1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
+  <select class="select-input" [(ngModel)]="quantity" >
+    <option
+    *ngFor="let option of options; index as i"
+    [selected]="option == options[0]"
+>
+    {{ option }}
+</option>
   </select>
-  <button  class="btn btn-primary" (click)="addProduct.emit(product)" >Add To Cart</button>
+
+  <button  class="btn btn-primary" (click)="loadCartItem();addItemtoCart(cartItem);addProduct.emit(cartItem)" >Add To Cart</button>
 </div>
 
 

@@ -12,6 +12,7 @@ import { CartItem } from 'src/app/models/CartItem';
 })
 export class ProductListComponent implements OnInit {
   products$: Observable<Product[]>;
+
   constructor(private _productSer: ProductService,private _cartService:CartService) {
     this._productSer.loadProducts();
     this.products$ = this._productSer.getProducts();
@@ -24,10 +25,10 @@ export class ProductListComponent implements OnInit {
     //Add 'implements OnDestroy' to the class.
     // this._productSer.unsubscribe();
   }
-  ///add product to cart
-  addProduct(product: Product) {
-   const cartItem={product,quantity:1}
-this._cartService.addToCart(cartItem);
-    alert('added');
+
+  ///user click add product to cart in child component
+  addProduct() {
+    console.log('added product to cart');
+   
   }
 }

@@ -2,7 +2,8 @@
   <app-product-item
     *ngFor="let product of products$ | async"
     [product]="product"
-    (addProduct)="addProduct(product)"
+    (addProduct)="addProduct()"
+  
     class="product-container"
   ></app-product-item>
 </div>
