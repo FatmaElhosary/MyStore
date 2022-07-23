@@ -5,7 +5,7 @@
     <h3 >{{product.name}}</h3>
     <h2 >{{product.price|currency}}</h2>
     <h4>{{product.description}}</h4>
-     <select class=""  >
+     <select class="" [(ngModel)]="quantity" (ngModelChange)="changeQuantity($event)" >
       <option
       *ngFor="let option of options; index as i"
       [selected]="option == options[0]"
@@ -13,7 +13,7 @@
       {{ option }}
   </option>
     </select>
-    <button  class="btn btn-primary"  >Add To Cart</button>
+    <button  class="btn btn-primary"  (click)="addToCart(product)">Add To Cart</button>
     <a routerLink="/">back to broduct list</a>
 
   </div>

@@ -40,7 +40,7 @@ options:number[]=[];
   }
   ///prepare cartitem
   loadCartItem(){
-    console.log(this.quantity);
+  console.log(this.quantity);
   this.cartItem= {...this.product,quantity:this.quantity};
    
   }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CartService } from 'src/app/services/cart.service';
+import { OptionService } from 'src/app/services/option.service';
 
 @Component({
   selector: 'app-confirmation',
@@ -6,10 +9,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./confirmation.component.css']
 })
 export class ConfirmationComponent implements OnInit {
-
-  constructor() { }
+totalPrice$:Observable<number>;
+name:string='';
+  constructor(private _cartService:CartService,private _options:OptionService) {
+    this.totalPrice$=this._cartService.getTotalPrice();
+    this.name=this._options.name;
+   }
 
   ngOnInit(): void {
+    //this.totalPrice$=this._cartService.getTotalPrice();
   }
 
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CartItem } from 'src/app/models/CartItem';
 import { Product } from 'src/app/models/Product';
+import { CartService } from 'src/app/services/cart.service';
 import { OptionService } from 'src/app/services/option.service';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -13,7 +15,11 @@ export class ProductItemDetailComponent implements OnInit {
  product:Product;
  productId:number=0;
  options:number[]=[];
-  constructor(private _router:ActivatedRoute,private _productService:ProductService,private _options:OptionService) { 
+ quantity:number=1;
+  constructor(private _router:ActivatedRoute,
+    private _productService:ProductService,
+    private _cartService:CartService,
+    private _options:OptionService) { 
     this.product={
       id:0,
       name:'',
@@ -34,5 +40,16 @@ export class ProductItemDetailComponent implements OnInit {
 getProduct(){
  return this._productService.getSingleProduct(this.productId);
 }
+///////change quantity///////////////////////
+changeQuantity(value:any){
+console.log(value);
+console.log(this.quantity);
+//this.quantity=value;
 
+}
+addToCart(product:Product){
+let cartItem:CartItem={...product,quantity:this.quantity}
+this._cartService.addToCart(cartItem);
+alert('added');
+}
 }

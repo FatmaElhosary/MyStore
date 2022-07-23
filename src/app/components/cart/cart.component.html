@@ -1,12 +1,12 @@
 <p *ngIf="(cartItems$ | async)?.length==0 " class="empty-cart-message ">cart is empty!</p>
-<div class="container row">
+<div class="container row " *ngIf="(cartItems$|async)?.length!==0">
 <div class="cart-item-details col-md-6">
 <div *ngFor="let item of cartItems$ | async" class="">
   <div class="cart-item-details">
     <img src="{{item.url}}" alt="">
     <h3>{{ item.name }}</h3>
     <h2>{{item.price|currency}}</h2>
-    <select class="number-input" (change)="updateCartItems(item)" >
+    <select class="number-input"  (change)="updateCartItems(item, $event)" >
       <option 
       *ngFor="let option of options; index as i"
       [selected]="option == item.quantity"
@@ -23,17 +23,37 @@
     <div class="form-group">
       <label for="exampleInputEmail1">Full Name</label>
       <input type="text" class="form-control" placeholder="" formControlName="name">
+      <div *ngIf="name?.hasError('required')&& name?.touched">
+        name is required
+       </div>
+       <div *ngIf="name?.hasError('minlength')&& name?.touched">
+        name must have at least 3 characters
+       </div>
     </div>
     <div class="form-group">
       <label for="exampleInputPassword1">Address</label>
       <input type="text" class="form-control" id="exampleInputPassword1" placeholder="" formControlName="address">
+      <div *ngIf="address?.hasError('required') && address?.touched"
+      >address is required</div
+    >
+    <div *ngIf="address?.hasError('minlength') && address?.touched"
+      >address must have at least 6 characters</div
+    >
     </div>
     <div class="form-group">
       <label for="exampleInputEmail1">Credit Card Number</label>
       <input type="text" class="form-control"  aria-describedby="CardHelp" placeholder="" formControlName="cardNumber">
+     
       <small id="CardHelp" class="form-text text-muted">We'll never share your card number with anyone else.</small>
+      <div *ngIf="cardNumber?.hasError('required')&& cardNumber?.touched">
+        cardNumber is required
+       </div>
+       <div *ngIf="cardNumber?.hasError('pattern')&& cardNumber?.touched">
+        cardNumber must have be 16 numbers only
+       </div>
+      
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!cartForm.valid">Submit</button>
   </form>
 </div>
 

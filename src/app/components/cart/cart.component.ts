@@ -4,8 +4,18 @@ import { CartService } from './../../services/cart.service';
 import { Component, OnInit } from '@angular/core';
 import { CartItem } from 'src/app/models/CartItem';
 import { OptionService } from 'src/app/services/option.service';
-import { FormBuilder, Validators } from '@angular/forms';
-
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+function spaceValidator(control: AbstractControl) {
+  if (control && control.value && !control.value.replace(/\s/g, '').length) {
+      control.setValue('');
+      console.log(control.value);
+      return { required: true }
+  }
+  else {
+      return null;
+  }
+  }
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -16,7 +26,9 @@ export class CartComponent implements OnInit {
    totalPrices:number=0;
    totalPrices$ :Observable<number>;
 
-  constructor(private _cartService:CartService,private _options:OptionService,private _formBuilder:FormBuilder) {
+  constructor(private _cartService:CartService,
+    private _router:Router,
+    private _options:OptionService,private _formBuilder:FormBuilder) {
     this.cartItems$=this._cartService.getItems();
     //this._cartService.calTotalPrice();
     this.totalPrices$=this._cartService.getTotalPrice();
@@ -28,32 +40,24 @@ export class CartComponent implements OnInit {
   this.options=this._options.options;
   this._cartService.calTotalPrice();
   }
-  updateCartItems(item:CartItem){
-   this._cartService.updateCart(item.id,item.quantity);
+  updateCartItems(item:CartItem,event:any){
+   this._cartService.updateCart(item.id,+event.target.value);
    
   }
 ///reactive form
+/**
+ * The following pattern will allow a string that starts with white spaces and will not
+ *  allow a string containing only white spaces:
+**/
   cartForm =this._formBuilder.group(
     {
-    name:['',[Validators.required]
+    name:['',[Validators.required,Validators.minLength(3), Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]
   ],
-  address:['',[Validators.required]],
-  cardNumber:['',[Validators.required]]}
+  address:['',[Validators.required,Validators.minLength(6),Validators.pattern(/^(\s+\S+\s*)*(?!\s).*$/)]],
+  cardNumber:['',[Validators.required,Validators.pattern(/^\d{16}$/)]]}
    );
   ///validate form
-  getNameErrorMessage() {
-    let errMse = '';
-    if (this.name?.hasError('required')) {
-      errMse = 'You must enter a name';
-    }
-    if (this.name?.hasError('pattern')) {
-      errMse = 'you must enter English char and no special characters allowed';
-    }
-    if (this.name?.hasError('forbiddenNameValidator')) {
-      errMse = 'you must enter English char';
-    }
-    return errMse;
-  }
+  
   get name() {
     return this.cartForm.get('name');
   }
@@ -64,6 +68,8 @@ export class CartComponent implements OnInit {
     return this.cartForm.get('cardNumber');
   }
   confirmOrder(){
+    this._options.name=this.cartForm.controls['name'].value;
+     this._router.navigateByUrl('/confirm');
 
   }
 }
