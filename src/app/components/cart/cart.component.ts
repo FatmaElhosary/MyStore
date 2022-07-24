@@ -43,8 +43,14 @@ export class CartComponent implements OnInit {
     this._cartService.calTotalPrice();
   }
   updateCartItems(item: CartItem, event: any) {
-    this._options.fromCart=true;
-    this._cartService.updateCart(item.id, +event.target.value);
+    
+    if(+event.target.value===0){
+      this._cartService.deleteItem(item);
+    }else{
+      this._options.fromCart=true;
+      this._cartService.updateCart(item.id, +event.target.value);
+    }
+    
     alert('update quantity');
   }
   ///delete from cart

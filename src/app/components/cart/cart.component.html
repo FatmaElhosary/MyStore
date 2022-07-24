@@ -6,14 +6,15 @@
     <img src="{{item.url}}" alt="">
     <h3>{{ item.name }}</h3>
     <h2>{{item.price|currency}}</h2>
-    <select class="number-input"  (change)="updateCartItems(item, $event)" >
+<!--     <select class="number-input"  (change)="updateCartItems(item, $event)" >
       <option
       *ngFor="let option of options; index as i"
       [selected]="option == item.quantity"
   >
       {{ option }}
   </option>
-    </select>
+    </select> -->
+    <input type="number" value="{{item.quantity}}" (change)="updateCartItems(item, $event)">
     <button class="btn btn-danger w-100" (click)="deleteFromCart(item)">deleteItem</button>
   </div>
 </div>
