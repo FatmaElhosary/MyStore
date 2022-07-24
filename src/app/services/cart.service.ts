@@ -27,9 +27,10 @@ export class CartService {
       this.updateCart(product.id,product.quantity);
       return;
     }
-    ///add new item 
+    ///add new item
     //product.id = this.cartItems.length ? 1 : this.cartItems.length + 1
     this.cartItems.push(product);
+    this.calTotalPrice();
     this.cartItems$.next(this.cartItems);
 
   }
@@ -38,12 +39,15 @@ export class CartService {
       ///update quantaty
       //item id
     const itemIndex=this.cartItems.findIndex(cart=>cart.id===id);
-    this.cartItems[itemIndex].quantity=quantaty;
+    console.log(this.cartItems[itemIndex].quantity,'before plus');
+//////////////
+    this.cartItems[itemIndex].quantity = this.cartItems[itemIndex].quantity + quantaty;
     this.cartItems$.next(this.cartItems);
     console.log(this.cartItems);
     this.calTotalPrice();
     this.cartItems$.next(this.cartItems);
   }
+
 
 ///totalPrice
 calTotalPrice(){
@@ -57,5 +61,13 @@ let total = prices.reduce(
 this.totalPrices=total;
 this.totalPrices$.next(this.totalPrices)
  //return total;
+}
+
+//delete from cart
+deleteItem(item:CartItem){
+  this.cartItems= this.cartItems.filter(cartItem=>cartItem.id!== item.id);
+  this.calTotalPrice();
+  this.cartItems$.next(this.cartItems);
+
 }
 }

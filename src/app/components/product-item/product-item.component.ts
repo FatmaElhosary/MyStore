@@ -42,11 +42,10 @@ options:number[]=[];
   loadCartItem(){
   console.log(this.quantity);
   this.cartItem= {...this.product,quantity:this.quantity};
-   
+
   }
-  //add to cart service 
+  //add to cart service
   addItemtoCart(cartItem:CartItem){
-    
     this._cartService.addToCart(cartItem);
     alert('added');
 

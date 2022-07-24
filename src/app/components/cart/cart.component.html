@@ -7,13 +7,14 @@
     <h3>{{ item.name }}</h3>
     <h2>{{item.price|currency}}</h2>
     <select class="number-input"  (change)="updateCartItems(item, $event)" >
-      <option 
+      <option
       *ngFor="let option of options; index as i"
       [selected]="option == item.quantity"
   >
       {{ option }}
   </option>
     </select>
+    <button class="btn btn-danger w-100" (click)="deleteFromCart(item)">deleteItem</button>
   </div>
 </div>
 <h2>total : {{totalPrices$| async}}</h2>
@@ -43,7 +44,7 @@
     <div class="form-group">
       <label for="exampleInputEmail1">Credit Card Number</label>
       <input type="text" class="form-control"  aria-describedby="CardHelp" placeholder="" formControlName="cardNumber">
-     
+
       <small id="CardHelp" class="form-text text-muted">We'll never share your card number with anyone else.</small>
       <div *ngIf="cardNumber?.hasError('required')&& cardNumber?.touched">
         cardNumber is required
@@ -51,7 +52,7 @@
        <div *ngIf="cardNumber?.hasError('pattern')&& cardNumber?.touched">
         cardNumber must have be 16 numbers only
        </div>
-      
+
     </div>
     <button type="submit" class="btn btn-primary" [disabled]="!cartForm.valid">Submit</button>
   </form>

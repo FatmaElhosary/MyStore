@@ -19,7 +19,7 @@ export class ProductItemDetailComponent implements OnInit {
   constructor(private _router:ActivatedRoute,
     private _productService:ProductService,
     private _cartService:CartService,
-    private _options:OptionService) { 
+    private _options:OptionService) {
     this.product={
       id:0,
       name:'',
@@ -35,20 +35,22 @@ export class ProductItemDetailComponent implements OnInit {
 
   this.product=this.getProduct()??this.product;
   this.options=this._options.options;
- 
+
   }
 getProduct(){
  return this._productService.getSingleProduct(this.productId);
 }
 ///////change quantity///////////////////////
 changeQuantity(value:any){
-console.log(value);
-console.log(this.quantity);
+//console.log(value);
+//console.log(this.quantity);
 //this.quantity=value;
 
 }
 addToCart(product:Product){
-let cartItem:CartItem={...product,quantity:this.quantity}
+let cartItem:CartItem={...product,quantity:this.quantity};
+console.log(this.quantity);
+
 this._cartService.addToCart(cartItem);
 alert('added');
 }
