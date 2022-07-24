@@ -44,7 +44,7 @@ export class CartComponent implements OnInit {
   }
   updateCartItems(item: CartItem, event: any) {
     
-    if(+event.target.value===0){
+    if(+event.target.value<=0){
       this._cartService.deleteItem(item);
     }else{
       this._options.fromCart=true;
