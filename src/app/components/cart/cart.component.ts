@@ -6,6 +6,7 @@ import { CartItem } from 'src/app/models/CartItem';
 import { OptionService } from 'src/app/services/option.service';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 function spaceValidator(control: AbstractControl) {
   if (control && control.value && !control.value.replace(/\s/g, '').length) {
     control.setValue('');
@@ -24,19 +25,33 @@ export class CartComponent implements OnInit {
   cartItems$: Observable<CartItem[]>;
   totalPrices: number = 0;
   totalPrices$: Observable<number>;
-
+  currentLang:string='';
   constructor(
     private _cartService: CartService,
     private _router: Router,
     private _options: OptionService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+   public translate: TranslateService
   ) {
     this.cartItems$ = this._cartService.getItems();
     //this._cartService.calTotalPrice();
     this.totalPrices$ = this._cartService.getTotalPrice();
+    ///////////////////////////////////////////////////////////////
+    translate.addLangs(['en','ar']);
+    //const browserLang = translate.getBrowserLang();
+    this.currentLang=localStorage.getItem('currentLang') || 'en';
+    translate.use(this.currentLang);
+    ///////////////////////////////////////////////////////
+  }
+  //////////////////////////save last lang //////////////////////////////
+  changeCurrentLang(lang:string){
+    this.translate.use(lang);
+    localStorage.setItem('currentLang',lang);
+
   }
 
   options: number[] = [];
+
   ngOnInit(): void {
     console.log(this.cartItems$);
     this.options = this._options.options;
